@@ -1,0 +1,33 @@
+.item {
+  margin-top: 26px;
+
+  > .header {
+    text-align: center;
+
+    > h2 {
+      margin: 0;
+    }
+
+    > p {
+      color: #ccc;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .infoHead {
+    text-align: right;
+  }
+
+  samp {
+    font-weight: bold;
+  }
+
+  .footer {
+    color: #ccc;
+    text-align: center;
+    margin-top: 7px;
+    margin-bottom: 0;
+    font-size: 12px;
+  }
+}

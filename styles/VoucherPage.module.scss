@@ -1,0 +1,28 @@
+@page {
+  size: A4;
+  margin: 0;
+}
+
+.container {
+  width: 210mm;
+  // height: 297mm;
+}
+
+@media print {
+  .pagebreak {
+    clear: both;
+    page-break-after: always;
+  }
+
+  .helper {
+    display: none;
+  }
+}
+
+@media screen {
+  .pagebreak {
+    width: 100%;
+    margin-top: 1.5rem;
+    border-top: 1px dashed #ccc;
+  }
+}
