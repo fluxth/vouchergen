@@ -32,7 +32,7 @@ const Home: NextPage<{}, State> = () => {
       ) : (
         <Container>
           <Row className="justify-content-center">
-            <Col className="my-4" sm={6}>
+            <Col className="my-4" md={8} lg={6}>
               <div className="text-center">
                 <h1>WiFi Voucher Generator</h1>
                 <p className="text-muted">Enter your voucher details below:</p>
