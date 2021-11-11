@@ -35,10 +35,10 @@ const VoucherPage = (props: Props) => {
             if (props.onBackClick) props.onBackClick();
           }}
         >
-          <FontAwesomeIcon icon={faChevronLeft} /> Go Back
+          <FontAwesomeIcon fixedWidth icon={faChevronLeft} /> Go Back
         </Button>{" "}
         <Button onClick={() => window.print()}>
-          <FontAwesomeIcon icon={faPrint} /> Print
+          <FontAwesomeIcon fixedWidth icon={faPrint} /> Print
         </Button>
       </div>
       {voucherRows.map((row, row_index) => (
