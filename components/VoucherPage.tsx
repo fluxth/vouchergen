@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { VoucherData } from "./Voucher";
 
 const ITEMS_PER_ROW = 3;
+const ROWS_PER_PAGE = 7;
 
 type Props = {
   vouchers: VoucherData[];
@@ -51,7 +52,7 @@ const VoucherPage = (props: Props) => {
               />
             ))}
           </Row>
-          {(row_index + 1) % 7 === 0 ? (
+          {(row_index + 1) % ROWS_PER_PAGE === 0 ? (
             <div className={styles.pagebreak}></div>
           ) : null}
         </div>
