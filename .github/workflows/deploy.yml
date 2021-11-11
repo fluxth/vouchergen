@@ -22,6 +22,8 @@ jobs:
 
       - name: Install and Build 🔧
         uses: actions/setup-node@v1
+        with:
+          node-version: '16'
       - run: yarn install
       - run: yarn build && yarn export
 
