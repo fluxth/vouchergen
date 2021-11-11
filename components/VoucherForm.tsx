@@ -114,7 +114,6 @@ class VoucherForm extends Component<Props, State> {
           let type = form.voucher_type.value;
           if (type === "auto") {
             const firstChar = row.Login.substr(0, 1);
-            console.log(firstChar);
             switch (firstChar) {
               case "h":
                 type = "hotel";
