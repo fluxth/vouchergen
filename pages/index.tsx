@@ -2,11 +2,13 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import Head from "next/head";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import VoucherForm from "../components/VoucherForm";
 import VoucherPage from "../components/VoucherPage";
 
 import type { VoucherFormData } from "../components/VoucherForm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 type State = {
   voucherPageShown: boolean;
@@ -37,7 +39,21 @@ const Home: NextPage<{}, State> = () => {
                 <h1>WiFi Voucher Generator</h1>
                 <p className="text-muted">Enter your voucher details below:</p>
               </div>
+              {state.formData ? (
+                <div className="mb-2 text-end">
+                  <Button
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={() =>
+                      setState({ ...state, voucherPageShown: true })
+                    }
+                  >
+                    Reprint <FontAwesomeIcon fixedWidth icon={faChevronRight} />
+                  </Button>
+                </div>
+              ) : null}
               <VoucherForm
+                onDataLoad={() => setState({ ...state, formData: null })}
                 onSubmit={(data) =>
                   setState({
                     ...state,

@@ -3,7 +3,7 @@ import { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-import { Button, Form, Alert } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import parse from "csv-parse/lib/sync";
 
 import type { VoucherData } from "./Voucher";
@@ -20,6 +20,7 @@ type CSVRow = {
 
 type Props = {
   onSubmit?: (data: VoucherFormData) => void;
+  onDataLoad?: (data: VoucherFormData) => void;
 };
 
 type State = {
@@ -89,6 +90,7 @@ class VoucherForm extends Component<Props, State> {
         }
 
         this.setState({ csvData: data });
+        if (this.props.onDataLoad) this.props.onDataLoad(data);
       };
 
       reader.readAsText(file);
