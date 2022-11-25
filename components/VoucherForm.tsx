@@ -106,13 +106,15 @@ class VoucherForm extends Component<Props, State> {
     });
   };
 
-  handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  handleFormSubmit = (
+    form: HTMLFormElement,
+    csvOverride: CSVRow[] | null = null
+  ) => {
     const { props, state } = this;
 
-    if (!state.csvData) return;
+    const csv = csvOverride || state.csvData;
+    if (!csv) return;
 
-    const form = event.target as HTMLFormElement;
     const header = form.header.value;
 
     if (typeof window !== "undefined") {
@@ -150,6 +152,24 @@ class VoucherForm extends Component<Props, State> {
       });
   };
 
+  handlePreview = () => {
+    const form = this.form.current;
+    if (!form) return;
+
+    const capacity = this.getLayoutCapacity(this.state.layout);
+    const csv: CSVRow[] = [];
+
+    for (let i = 0; i < capacity; ++i) {
+      csv.push({
+        Login: `user${i + 1}`,
+        Password: "PREVIEW",
+        "Uptime Limit": "69d",
+      });
+    }
+
+    this.handleFormSubmit(form, csv);
+  };
+
   getLayoutCapacity = (layout: VoucherPageLayout): number => {
     switch (layout) {
       case "4x8":
@@ -171,7 +191,10 @@ class VoucherForm extends Component<Props, State> {
       <>
         <Form
           ref={this.form}
-          onSubmit={this.handleFormSubmit}
+          onSubmit={(event) => {
+            event.preventDefault();
+            this.handleFormSubmit(event.target as HTMLFormElement);
+          }}
         >
           <Form.Group className="mb-3">
             <Form.Label>
@@ -252,6 +275,17 @@ class VoucherForm extends Component<Props, State> {
             >
               <FontAwesomeIcon fixedWidth icon={faCheck} /> Generate
             </Button>
+            <div className="text-end">
+              <a
+                href="#"
+                onClick={(event) => {
+                  event.preventDefault();
+                  this.handlePreview();
+                }}
+              >
+                Preview Layout
+              </a>
+            </div>
           </div>
         </Form>
       </>
