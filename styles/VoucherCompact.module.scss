@@ -1,0 +1,26 @@
+.item {
+  margin-top: 12.5px;
+  font-size: 0.9rem;
+
+  > .header {
+    > h2 {
+      margin: 0;
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+  }
+
+  samp {
+    font-weight: bold;
+  }
+
+  .infoRow {
+    margin-top: -4px;
+  }
+
+  > p {
+    color: #ccc;
+    font-size: 0.7rem;
+    margin-bottom: 2px;
+  }
+}

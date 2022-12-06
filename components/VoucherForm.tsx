@@ -2,14 +2,35 @@ import { Component, createRef } from "react";
 import type { RefObject } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 import { Button, Form } from "react-bootstrap";
 import parse from "csv-parse/lib/sync";
 
-import type { VoucherData } from "./Voucher";
+import Voucher from "./Voucher";
+import VoucherCompact from "./VoucherCompact";
 
-type VoucherPageLayout = "4x8" | "3x7";
+export type VoucherData = {
+  header: string;
+  username: string;
+  password: string;
+  expiry?: string;
+  type?: "hotel" | "restaurant";
+};
+
+export type VoucherProps = {
+  icon?: IconDefinition;
+  data: VoucherData;
+};
+
+export type VoucherPageLayout = {
+  name: string;
+  rows: number;
+  cols: number;
+  capacity: number;
+  component: React.FC<VoucherProps>;
+};
 
 export type VoucherFormData = {
   vouchers: VoucherData[];
@@ -33,6 +54,30 @@ type State = {
   layout: VoucherPageLayout;
 };
 
+const getLayout = (layoutName: string): VoucherPageLayout | null => {
+  switch (layoutName) {
+    case "default":
+    case "4x12":
+      return {
+        name: "4x12",
+        rows: 12,
+        cols: 4,
+        capacity: 4 * 12,
+        component: VoucherCompact,
+      };
+    case "3x7":
+      return {
+        name: "3x7",
+        rows: 7,
+        cols: 3,
+        capacity: 3 * 7,
+        component: Voucher,
+      };
+    default:
+      return null;
+  }
+};
+
 class VoucherForm extends Component<Props, State> {
   form: RefObject<HTMLFormElement>;
 
@@ -41,7 +86,7 @@ class VoucherForm extends Component<Props, State> {
     this.state = {
       csvData: null,
       csvError: null,
-      layout: "4x8",
+      layout: getLayout("default")!,
     };
     this.form = createRef<HTMLFormElement>();
   }
@@ -156,10 +201,9 @@ class VoucherForm extends Component<Props, State> {
     const form = this.form.current;
     if (!form) return;
 
-    const capacity = this.getLayoutCapacity(this.state.layout);
     const csv: CSVRow[] = [];
 
-    for (let i = 0; i < capacity; ++i) {
+    for (let i = 0; i < this.state.layout.capacity * 2; ++i) {
       csv.push({
         Login: `user${i + 1}`,
         Password: "PREVIEW",
@@ -168,17 +212,6 @@ class VoucherForm extends Component<Props, State> {
     }
 
     this.handleFormSubmit(form, csv);
-  };
-
-  getLayoutCapacity = (layout: VoucherPageLayout): number => {
-    switch (layout) {
-      case "4x8":
-        return 4 * 8;
-      case "3x7":
-        return 3 * 7;
-      default:
-        return 0;
-    }
   };
 
   render() {
@@ -247,23 +280,23 @@ class VoucherForm extends Component<Props, State> {
             </Form.Label>
             <Form.Select
               name="voucher_layout"
-              value={this.state.layout}
+              value={this.state.layout.name}
               onChange={(event) => {
                 const { value } = event.target;
                 this.setState((state) => ({
                   ...state,
-                  layout: (value as VoucherPageLayout) || "4x8",
+                  layout: getLayout(value) || getLayout("default")!,
                 }));
               }}
             >
-              <option value="4x8">4 x 8 (Compact)</option>
+              <option value="4x12">4 x 12 (Compact)</option>
               <option value="3x7">3 x 7 (Sparse)</option>
             </Form.Select>
           </Form.Group>
 
           <p className="text-muted mb-3">
             <b>Note:</b> One printed A4 page can hold up to{" "}
-            {this.getLayoutCapacity(this.state.layout)} vouchers
+            {this.state.layout.capacity} vouchers
           </p>
 
           <div className="d-grid gap-2">

@@ -2,7 +2,7 @@ import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-import styles from "../styles/Voucher.module.scss";
+import styles from "../styles/VoucherCompact.module.scss";
 import { faUtensils, faBed } from "@fortawesome/free-solid-svg-icons";
 
 export type VoucherData = {
@@ -18,21 +18,21 @@ type Props = {
   data: VoucherData;
 };
 
-const Voucher: React.FC<Props> = (props: Props) => {
-  let subheader = "Internet Voucher";
+const VoucherCompact = (props: Props) => {
+  let subheader = "";
   let typeIcon = null;
   switch (props.data.type) {
     case "restaurant":
-      subheader = "Restaurant " + subheader;
+      subheader = "Restaurant: ";
       typeIcon = faUtensils;
       break;
     case "hotel":
-      subheader = "Hotel " + subheader;
+      subheader = "Hotel: ";
       typeIcon = faBed;
       break;
   }
 
-  let footer = "";
+  let validLabel = "";
   if (props.data.expiry) {
     let expiry = props.data.expiry;
     let suffix: string | null = expiry.substr(expiry.length - 1);
@@ -59,11 +59,11 @@ const Voucher: React.FC<Props> = (props: Props) => {
     }
 
     if (!suffix) {
-      footer = `Valid for ${expiry}`;
+      validLabel = `Valid ${expiry}`;
     } else {
       const numExpiry = parseInt(expiry);
-      footer = `Valid for ${numExpiry} ${suffix}`;
-      if (numExpiry !== 1) footer += "s";
+      validLabel = `Valid ${numExpiry} ${suffix}`;
+      if (numExpiry !== 1) validLabel += "s";
     }
   }
 
@@ -78,30 +78,29 @@ const Voucher: React.FC<Props> = (props: Props) => {
           ) : null}
           {props.data.header}
         </h2>
-        <p>{subheader}</p>
       </div>
-      <Row>
+      <Row className={styles.infoRow}>
         <Col xs={6} className={styles.infoHead}>
           Username:
         </Col>
-        <Col xs={6}>
+        <Col xs={6} className={styles.infoCred}>
           <samp>{props.data.username}</samp>
         </Col>
       </Row>
-      <Row>
+      <Row className={styles.infoRow}>
         <Col xs={6} className={styles.infoHead}>
           Password:
         </Col>
-        <Col xs={6}>
+        <Col xs={6} className={styles.infoCred}>
           <samp>{props.data.password}</samp>
         </Col>
       </Row>
-      <p className={styles.footer}>
+      <p>
         {typeIcon ? <FontAwesomeIcon fixedWidth icon={typeIcon} /> : null}{" "}
-        {footer}
+        {subheader + validLabel}
       </p>
     </Col>
   );
 };
 
-export default Voucher;
+export default VoucherCompact;

@@ -7,23 +7,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "../styles/VoucherPage.module.scss";
-import Voucher from "./Voucher";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import type { VoucherData } from "./Voucher";
-
-const ITEMS_PER_ROW = 3;
-const ROWS_PER_PAGE = 7;
+import type { VoucherData } from "./VoucherForm";
+import { VoucherPageLayout } from "./VoucherForm";
 
 type Props = {
   vouchers: VoucherData[];
+  layout: VoucherPageLayout;
   onBackClick?: () => void;
 };
 
 const VoucherPage = (props: Props) => {
-  const rows = [...Array(Math.ceil(props.vouchers.length / ITEMS_PER_ROW))];
-  const voucherRows = rows.map((_, i) =>
-    props.vouchers.slice(i * ITEMS_PER_ROW, i * ITEMS_PER_ROW + ITEMS_PER_ROW)
+  const { rows, cols } = props.layout;
+  const VoucherComponent = props.layout.component;
+
+  const voucherRows = [...Array(Math.ceil(props.vouchers.length / cols))].map(
+    (_, i) => props.vouchers.slice(i * cols, i * cols + cols)
   );
 
   return (
@@ -45,14 +45,14 @@ const VoucherPage = (props: Props) => {
         <div key={row_index}>
           <Row>
             {row.map((item, item_index) => (
-              <Voucher
+              <VoucherComponent
                 data={item}
                 icon={faWifi}
                 key={`${row_index}_${item_index}`}
               />
             ))}
           </Row>
-          {(row_index + 1) % ROWS_PER_PAGE === 0 ? (
+          {(row_index + 1) % rows === 0 ? (
             <div className={styles.pagebreak}></div>
           ) : null}
         </div>

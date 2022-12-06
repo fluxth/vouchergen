@@ -29,6 +29,7 @@ const Home: NextPage<{}, State> = () => {
       {state.voucherPageShown && state.formData ? (
         <VoucherPage
           vouchers={state.formData.vouchers}
+          layout={state.formData.layout}
           onBackClick={() => setState({ ...state, voucherPageShown: false })}
         />
       ) : (
