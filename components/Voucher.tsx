@@ -97,7 +97,10 @@ const Voucher: React.FC<Props> = (props: Props) => {
         </Col>
       </Row>
       <p className={styles.footer}>
-        {typeIcon ? <FontAwesomeIcon fixedWidth icon={typeIcon} /> : null}{" "}
+        {typeIcon ? (
+          /* FIXME: Type this properly */
+          <FontAwesomeIcon fixedWidth icon={typeIcon as any} />
+        ) : null}{" "}
         {footer}
       </p>
     </Col>

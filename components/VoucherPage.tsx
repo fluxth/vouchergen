@@ -35,10 +35,12 @@ const VoucherPage = (props: Props) => {
             if (props.onBackClick) props.onBackClick();
           }}
         >
-          <FontAwesomeIcon fixedWidth icon={faChevronLeft} /> Go Back
+          {/* FIXME: Type this correctly */}
+          <FontAwesomeIcon fixedWidth icon={faChevronLeft as any} /> Go Back
         </Button>{" "}
         <Button onClick={() => window.print()}>
-          <FontAwesomeIcon fixedWidth icon={faPrint} /> Print
+          {/* FIXME: Type this correctly */}
+          <FontAwesomeIcon fixedWidth icon={faPrint as any} /> Print
         </Button>
       </div>
       {voucherRows.map((row, row_index) => (
@@ -47,7 +49,8 @@ const VoucherPage = (props: Props) => {
             {row.map((item, item_index) => (
               <VoucherComponent
                 data={item}
-                icon={faWifi}
+                /* FIXME: Type this correctly */
+                icon={faWifi as any}
                 key={`${row_index}_${item_index}`}
               />
             ))}

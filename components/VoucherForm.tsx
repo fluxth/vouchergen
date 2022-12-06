@@ -306,7 +306,8 @@ class VoucherForm extends Component<Props, State> {
               type="submit"
               disabled={!this.state.csvData}
             >
-              <FontAwesomeIcon fixedWidth icon={faCheck} /> Generate
+              {/* FIXME: Type this correctly */}
+              <FontAwesomeIcon fixedWidth icon={faCheck as any} /> Generate
             </Button>
             <div className="text-end">
               <a

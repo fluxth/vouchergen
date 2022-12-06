@@ -96,7 +96,10 @@ const VoucherCompact = (props: Props) => {
         </Col>
       </Row>
       <p>
-        {typeIcon ? <FontAwesomeIcon fixedWidth icon={typeIcon} /> : null}{" "}
+        {typeIcon ? (
+          /* FIXME: Type this properly */
+          <FontAwesomeIcon fixedWidth icon={typeIcon as any} />
+        ) : null}{" "}
         {subheader + validLabel}
       </p>
     </Col>
